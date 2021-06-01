@@ -1,0 +1,84 @@
+@import '../../../sass/_main';
+
+.info-side-pane,
+.info-side-pane--active {
+  position: absolute;
+  right: 0;
+  height: 100vh;
+  overflow: auto;
+  max-width: 35rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: #fff;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  z-index: 1000;
+
+  p {
+    font-size: 1.5rem;
+    text-align: left;
+    line-height: 1.7;
+    padding: 0 2rem;
+  }
+
+  &-section {
+    padding: 1rem;
+
+    span {
+      font-size: 1.6rem;
+      font-weight: bold;
+      margin-right: 0.75rem;
+    }
+
+    p {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &-close {
+    position: fixed;
+    bottom: 0;
+    height: 2.5rem;
+    cursor: pointer;
+    line-height: 0.5;
+    padding: 2rem 0;
+    width: 100%;
+    z-index: 1;
+
+    path {
+      fill: $color-gray-medium;
+    }
+
+    &:hover {
+      background-color: $color-gray-extra-light;
+    }
+  }
+}
+
+.character-image-info {
+  width: 50%;
+  margin-bottom: 1rem;
+  box-shadow: $box-shadow-secondary;
+  border-radius: $card-border-radius;
+}
+
+.info-side-pane {
+  transform: translateX(100%);
+}
+
+.info-side-pane--active {
+  box-shadow: $box-shadow-secondary;
+  transform: translateX(0);
+}
+
+.info-icon {
+  grid-column: 8;
+  grid-row: 8;
+  align-self: center;
+  justify-self: center;
+  margin-top: 2rem;
+  margin-left: 4rem;
+  z-index: 1000;
+}

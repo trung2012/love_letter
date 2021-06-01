@@ -1,0 +1,808 @@
+@mixin respond($breakpoint) {
+  @if $breakpoint == phone {
+    @media (max-width: 37.5em) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == tab-port {
+    @media (max-width: 56.25em) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == tab-land {
+    @media (max-width: 75em) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == big-desktop {
+    @media (min-width: 120.0625em) {
+      @content;
+    }
+  }
+}
+
+@mixin gameTableLayout($numPlayers) {
+  position: relative;
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: repeat(8, 12.5%);
+  grid-template-rows: repeat(8, 12.5%);
+}
+
+@mixin generalStore {
+  .general-store {
+    grid-column: 2 / span 6;
+    grid-row: 3;
+    display: flex;
+    justify-content: center;
+
+    & > * {
+      padding-right: 1rem;
+    }
+  }
+}
+
+@mixin player0 {
+  .player0 {
+    grid-column: 3 / span 4;
+    grid-row: 8;
+    align-self: flex-end;
+    flex-direction: row;
+    align-items: center;
+    justify-self: flex-start;
+    margin-left: 3rem;
+
+    .player-info {
+      &-container {
+        align-self: center;
+      }
+    }
+
+    .player-hand {
+      position: absolute;
+      left: 100%;
+    }
+
+    .player-equipments-container {
+      left: 0;
+      bottom: 102%;
+    }
+
+    .player-cards-in-play {
+      transform: translate(5rem, -20rem);
+      z-index: 1;
+    }
+  }
+}
+
+@mixin player1($numPlayers) {
+  @if $numPlayers == 2 {
+    .player1 {
+      grid-column: 3 / span 4;
+      grid-row: 1 / span 2;
+      align-self: flex-start;
+      justify-self: center;
+      margin-top: 1rem;
+
+      .player-equipments-container {
+        left: $card-width * 2;
+      }
+
+      .player-hand {
+        transform: translateX(3rem) rotate(5deg);
+      }
+
+      .player-cards-in-play {
+        left: -$card-width;
+        top: $card-height * 0.2;
+      }
+    }
+  }
+
+  @if $numPlayers == 3 {
+    .player1 {
+      grid-column: 1 / span 2;
+      grid-row: 2;
+      flex-direction: row;
+      align-self: flex-start;
+      justify-self: flex-start;
+      margin-left: 1rem;
+
+      .player-hand {
+        transform: translate(10rem, 10rem) rotate(-65deg);
+      }
+
+      .player-cards-in-play {
+        right: -10%;
+      }
+
+      .player-equipments-container {
+        top: -$card-height;
+      }
+    }
+  }
+
+  @if $numPlayers == 4 {
+    .player1 {
+      grid-column: 1 / span 2;
+      grid-row: 5;
+      flex-direction: row;
+      align-self: flex-start;
+      justify-self: flex-start;
+      margin-left: 1rem;
+
+      .player-hand {
+        transform: translate(10rem, 15rem) rotate(-65deg);
+      }
+
+      .player-cards-in-play {
+        right: -10%;
+      }
+
+      .player-equipments-container {
+        top: -$card-height;
+      }
+    }
+  }
+
+  @if $numPlayers == 5 {
+    .player1 {
+      grid-column: 1 / span 2;
+      grid-row: 5;
+      flex-direction: row;
+      align-self: flex-start;
+      justify-self: flex-start;
+      margin-left: 1rem;
+
+      .player-hand {
+        transform: translate(10rem, 15rem) rotate(-65deg);
+      }
+
+      .player-cards-in-play {
+        right: -10%;
+      }
+
+      .player-equipments-container {
+        top: -$card-height;
+      }
+    }
+  }
+
+  @if $numPlayers == 6 {
+    .player1 {
+      grid-column: 1 / span 2;
+      grid-row: 5;
+      flex-direction: row;
+      align-self: flex-start;
+      justify-self: flex-start;
+      margin-left: 1rem;
+
+      .player-hand {
+        transform: translate(10rem, 15rem) rotate(-65deg);
+      }
+
+      .player-cards-in-play {
+        right: -10%;
+      }
+
+      .player-equipments-container {
+        top: -$card-height;
+      }
+    }
+  }
+
+  @if $numPlayers == 7 {
+    .player1 {
+      grid-column: 1 / span 2;
+      grid-row: 6;
+      flex-direction: row;
+      align-self: flex-start;
+      justify-self: flex-start;
+      margin-left: 1rem;
+
+      .player-hand {
+        transform: translate(10rem, 15rem) rotate(-65deg);
+      }
+
+      .player-cards-in-play {
+        right: -10%;
+      }
+
+      .player-equipments-container {
+        top: -$card-height;
+      }
+    }
+  }
+
+  @if $numPlayers == 8 {
+    .player1 {
+      grid-column: 1 / span 2;
+      grid-row: 7 / span 2;
+      flex-direction: row;
+      align-self: flex-end;
+      justify-self: flex-start;
+      margin-left: 1rem;
+
+      .player-hand {
+        transform: translate(10rem, 4rem) rotate(-65deg);
+      }
+
+      .player-cards-in-play {
+        transform: translate(18rem, 3rem);
+      }
+
+      .player-equipments-container {
+        left: 0;
+        bottom: 102%;
+      }
+    }
+  }
+}
+
+@mixin player2($numPlayers) {
+  @if $numPlayers == 4 {
+    .player2 {
+      grid-column: 4 / span 2;
+      grid-row: 1;
+      align-self: flex-start;
+      justify-self: center;
+      margin-top: 1rem;
+
+      .player-equipments-container {
+        left: $card-width * 2;
+      }
+
+      .player-hand {
+        transform: translateX(3rem) rotate(5deg);
+      }
+
+      .player-cards-in-play {
+        left: -$card-width;
+        top: $card-height * 0.2;
+      }
+    }
+  }
+
+  @if $numPlayers == 3 {
+    .player2 {
+      grid-column: 7 / span 2;
+      grid-row: 4 / span 2;
+      flex-direction: row-reverse;
+      align-self: center;
+      justify-self: flex-end;
+      margin-right: 1rem;
+
+      .player-hand {
+        transform: translate(-15rem, 0) rotate(80deg);
+      }
+
+      .player-cards-in-play {
+        left: 0;
+        top: 100%;
+      }
+
+      .player-equipments-container {
+        top: -$card-height;
+        right: 35%;
+      }
+    }
+  }
+
+  @if $numPlayers == 5 {
+    // 2
+    .player2 {
+      grid-column: 1 / span 4;
+      grid-row: 1 / span 2;
+      align-self: flex-start;
+      justify-self: center;
+      margin-top: 1rem;
+
+      .player-equipments-container {
+        left: $card-width * 2;
+      }
+
+      .player-hand {
+        transform: translateX(3rem) rotate(5deg);
+      }
+
+      .player-cards-in-play {
+        left: -$card-width;
+        top: $card-height * 0.2;
+      }
+    }
+  }
+
+  @if $numPlayers == 6 {
+    .player2 {
+      grid-column: 1 / span 2;
+      grid-row: 2;
+      flex-direction: row;
+      align-self: flex-start;
+      justify-self: flex-start;
+      margin-left: 1rem;
+
+      .player-hand {
+        transform: translate(10rem, 10rem) rotate(-65deg);
+      }
+
+      .player-cards-in-play {
+        right: -10%;
+      }
+
+      .player-equipments-container {
+        top: -$card-height;
+      }
+    }
+  }
+
+  @if $numPlayers == 7 {
+    // 2
+    .player2 {
+      grid-column: 1 / span 2;
+      grid-row: 3;
+      flex-direction: row;
+      align-self: flex-start;
+      justify-self: flex-start;
+      margin-left: 1rem;
+
+      .player-hand {
+        transform: translate(10rem, 10rem) rotate(-65deg);
+      }
+
+      .player-cards-in-play {
+        transform: translate(14rem, 3rem);
+      }
+
+      .player-equipments-container {
+        top: -$card-height;
+      }
+    }
+  }
+
+  @if $numPlayers == 8 {
+    // 2
+    .player2 {
+      grid-column: 1 / span 2;
+      grid-row: 4 / span 2;
+      flex-direction: row;
+      align-self: flex-end;
+      justify-self: flex-start;
+      margin-left: 1rem;
+      margin-bottom: -10%;
+
+      .player-hand {
+        transform: translate(10rem, 10rem) rotate(-65deg);
+      }
+
+      .player-cards-in-play {
+        transform: translate(18rem, 3rem);
+      }
+
+      .player-equipments-container {
+        left: 0;
+        bottom: 102%;
+      }
+    }
+  }
+}
+
+@mixin player3($numPlayers) {
+  @if $numPlayers == 4 {
+    .player3 {
+      grid-column: 7 / span 2;
+      grid-row: 4 / span 2;
+      flex-direction: row-reverse;
+      align-self: center;
+      justify-self: flex-end;
+      margin-right: 1rem;
+
+      .player-hand {
+        transform: translate(-15rem, 0) rotate(80deg);
+      }
+
+      .player-cards-in-play {
+        left: 0;
+        top: 100%;
+      }
+
+      .player-equipments-container {
+        top: -$card-height;
+        right: 35%;
+      }
+    }
+  }
+
+  @if $numPlayers == 5 {
+    // 3
+    .player3 {
+      grid-column: 5 / span 4;
+      grid-row: 1 / span 2;
+      align-self: center;
+      justify-self: flex-end;
+      margin-top: 1rem;
+
+      .player-equipments-container {
+        top: 0;
+        right: 120%;
+
+        & > * {
+          flex-direction: row-reverse;
+        }
+      }
+
+      .player-hand {
+        transform: translate(-5rem, 5rem) rotate(40deg);
+      }
+
+      .player-cards-in-play {
+        transform: translate(-24rem, 15rem);
+      }
+    }
+  }
+
+  @if $numPlayers == 6 {
+    .player3 {
+      grid-column: 4 / span 2;
+      grid-row: 1;
+      align-self: flex-start;
+      justify-self: center;
+      margin-top: 1rem;
+
+      .player-equipments-container {
+        left: $card-width * 2;
+      }
+
+      .player-hand {
+        transform: translateX(3rem) rotate(5deg);
+      }
+
+      .player-cards-in-play {
+        left: -$card-width * 1.25;
+      }
+    }
+  }
+
+  @if $numPlayers == 7 {
+    // 3
+    .player3 {
+      grid-column: 2 / span 3;
+      grid-row: 1 / span 2;
+      align-self: flex-start;
+      justify-self: center;
+      margin-top: 1rem;
+
+      .player-equipments-container {
+        left: $card-width * 2;
+      }
+
+      .player-hand {
+        transform: translateX(3rem) rotate(5deg);
+      }
+
+      .player-cards-in-play {
+        left: -$card-width;
+        top: $card-height * 0.2;
+      }
+    }
+  }
+
+  @if $numPlayers == 8 {
+    // 3
+    .player3 {
+      grid-column: 1 / span 2;
+      grid-row: 2 / span 2;
+      flex-direction: row;
+      align-self: flex-start;
+      justify-self: flex-start;
+      margin-left: 1rem;
+      margin-top: 10%;
+
+      .player-hand {
+        transform: translate(10rem, 10rem) rotate(-65deg);
+      }
+
+      .player-cards-in-play {
+        transform: translate(18rem, 3rem);
+      }
+
+      .player-equipments-container {
+        left: 0;
+        bottom: 100%;
+      }
+    }
+  }
+}
+
+@mixin player4($numPlayers) {
+  @if $numPlayers == 5 {
+    .player4 {
+      grid-column: 7 / span 2;
+      grid-row: 4 / span 2;
+      flex-direction: row-reverse;
+      align-self: center;
+      justify-self: flex-end;
+      margin-right: 1rem;
+
+      .player-hand {
+        transform: translate(-11rem, 13rem) rotate(60deg);
+      }
+
+      .player-cards-in-play {
+        left: 0;
+        top: 100%;
+      }
+
+      .player-equipments-container {
+        top: -40%;
+        right: 110%;
+
+        & > * {
+          flex-direction: row-reverse;
+        }
+      }
+    }
+  }
+
+  @if $numPlayers == 6 {
+    .player4 {
+      grid-column: 7 / span 2;
+      grid-row: 2 / span 2;
+      flex-direction: row-reverse;
+      align-self: center;
+      justify-self: flex-end;
+      margin-right: 1rem;
+
+      .player-hand {
+        transform: translate(-15rem, 10rem) rotate(60deg);
+      }
+
+      .player-cards-in-play {
+        left: 0;
+        top: 100%;
+      }
+
+      .player-equipments-container {
+        top: -$card-height;
+        right: 35%;
+      }
+    }
+  }
+
+  @if $numPlayers == 7 {
+    // 4
+    .player4 {
+      grid-column: 5 / span 3;
+      grid-row: 1 / span 2;
+      align-self: flex-start;
+      justify-self: center;
+      margin-top: 1rem;
+
+      .player-equipments-container {
+        left: $card-width * 2;
+      }
+
+      .player-hand {
+        transform: translateX(3rem) rotate(5deg);
+      }
+
+      .player-cards-in-play {
+        left: -$card-width;
+        top: $card-height * 0.2;
+      }
+    }
+  }
+
+  @if $numPlayers == 8 {
+    // 4
+    .player4 {
+      grid-column: 3 / span 2;
+      grid-row: 1;
+      align-self: flex-start;
+      justify-self: center;
+      margin-top: 1rem;
+      margin-left: 3rem;
+
+      .player-equipments-container {
+        left: 100%;
+      }
+
+      .player-hand {
+        transform: translateX(3rem) rotate(5deg);
+      }
+
+      .player-cards-in-play {
+        bottom: 0;
+        right: -5rem;
+      }
+    }
+  }
+}
+
+@mixin player5($numPlayers) {
+  @if $numPlayers == 6 {
+    .player5 {
+      grid-column: 7 / span 2;
+      grid-row: 5 / span 3;
+      flex-direction: row-reverse;
+      align-self: center;
+      justify-self: flex-end;
+      margin-right: 1rem;
+
+      .player-hand {
+        transform: translate(-15rem, 10rem) rotate(60deg);
+      }
+
+      .player-cards-in-play {
+        left: 0;
+        top: 100%;
+      }
+
+      .player-equipments-container {
+        top: -$card-height;
+        right: 35%;
+      }
+    }
+  }
+
+  @if $numPlayers == 7 {
+    // 5
+    .player5 {
+      grid-column: 7 / span 2;
+      grid-row: 2 / span 2;
+      flex-direction: row-reverse;
+      align-self: flex-end;
+      justify-self: flex-end;
+      margin-right: 1rem;
+
+      .player-hand {
+        transform: translate(-17rem, 3rem) rotate(75deg);
+      }
+
+      .player-cards-in-play {
+        left: 0;
+        transform: translate(0, 21rem);
+      }
+
+      .player-equipments-container {
+        bottom: 90%;
+        right: 100%;
+
+        & > * {
+          flex-direction: row-reverse;
+        }
+      }
+    }
+  }
+
+  @if $numPlayers == 8 {
+    // 5
+    .player5 {
+      grid-column: 7 / span 2;
+      grid-row: 1 / span 2;
+      flex-direction: row-reverse;
+      align-self: flex-start;
+      justify-self: flex-end;
+      margin-right: 2rem;
+      margin-top: 2rem;
+
+      .player-hand {
+        transform: translate(-5rem, 18rem) rotate(40deg);
+      }
+
+      .player-cards-in-play {
+        left: 0;
+        transform: translate(-33rem, 23rem);
+      }
+
+      .player-equipments-container {
+        top: 0;
+        right: 120%;
+
+        & > * {
+          flex-direction: row-reverse;
+        }
+      }
+    }
+  }
+}
+
+@mixin player6($numPlayers) {
+  @if $numPlayers == 7 {
+    // 6
+    .player6 {
+      grid-column: 7 / span 2;
+      grid-row: 6 / span 2;
+      flex-direction: row-reverse;
+      align-self: flex-start;
+      justify-self: flex-end;
+      margin-right: 1rem;
+
+      .player-hand {
+        transform: translate(-15rem, 0) rotate(80deg);
+      }
+
+      .player-cards-in-play {
+        left: 0;
+        transform: translate(0, 21rem);
+      }
+
+      .player-equipments-container {
+        bottom: 90%;
+        right: 100%;
+
+        & > * {
+          flex-direction: row-reverse;
+        }
+      }
+    }
+  }
+
+  @if $numPlayers == 8 {
+    // 6
+    .player6 {
+      grid-column: 7 / span 2;
+      grid-row: 3 / span 3;
+      flex-direction: row-reverse;
+      align-self: center;
+      justify-self: flex-end;
+      margin-right: 2rem;
+      margin-bottom: 1rem;
+
+      .player-hand {
+        transform: translate(-9rem, 16rem) rotate(30deg);
+        z-index: 1;
+      }
+
+      .player-cards-in-play {
+        left: 0;
+        transform: translate(-27rem, 19rem);
+      }
+
+      .player-equipments-container {
+        bottom: 30%;
+        right: 110%;
+
+        & > * {
+          flex-direction: row-reverse;
+        }
+      }
+    }
+  }
+}
+
+@mixin player7($numPlayers) {
+  @if $numPlayers == 8 {
+    // 7
+    .player7 {
+      grid-column: 7 / span 2;
+      grid-row: 6 / span 3;
+      flex-direction: row-reverse;
+      align-self: flex-start;
+      justify-self: flex-end;
+      margin-right: 2rem;
+      margin-top: 2rem;
+
+      .player-hand {
+        transform: translate(-10rem, 11rem) rotate(50deg);
+        z-index: 1;
+      }
+
+      .player-cards-in-play {
+        left: 0;
+        transform: translate(1rem, -15rem);
+      }
+
+      .player-equipments-container {
+        top: -25%;
+        right: 110%;
+
+        & > * {
+          flex-direction: row-reverse;
+        }
+      }
+    }
+  }
+}

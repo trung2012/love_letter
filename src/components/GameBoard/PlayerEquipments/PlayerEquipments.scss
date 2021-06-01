@@ -1,0 +1,7 @@
+.player-equipments {
+  display: flex;
+
+  & > * {
+    margin-right: -8%;
+  }
+}

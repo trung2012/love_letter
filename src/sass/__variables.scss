@@ -1,0 +1,37 @@
+$color-gray-dark: #414345;
+$color-gray-medium: #5f5f5f;
+$color-gray-medium-light: #818181;
+$color-gray-light: #e0e0e0;
+$color-gray-extra-light: #f3f3f3;
+$color-green-dark: #4d7701;
+$color-green-light: #32e21b;
+$color-red-dark: #a31a02;
+$color-red-light: #ec3737;
+$color-blue-light: #4387ee;
+$color-blue-dark: #095ecc;
+$color-black-light: #364147;
+$color-black-extra-light: #4f595f;
+$color-primary: #ffd57e;
+$color-secondary: #fca652;
+$color-secondary-dark: #f46500;
+$color-tertiary: #c74d10;
+$color-tertiary-dark: #97441a;
+$color-gray-light: #acacac;
+
+$box-shadow-primary: 0px 2px 6px $color-gray-dark;
+$box-shadow-secondary: 0px 2px 8px $color-gray-medium-light;
+$box-shadow-large: 0px 4px 12px $color-gray-medium;
+$box-shadow-light: 0px 2px 8px $color-gray-light;
+$box-shadow-player: 8px 8px 14px #8e8e8e, -8px -8px 14px #e9e9e9;
+$box-shadow-card-active: 0px 2px 8px 6px $color-secondary;
+$box-shadow-card-selected: 0px 2px 8px 8px $color-secondary-dark;
+$box-shadow-deck-active: 0px 0px 4px 8px $color-primary;
+$box-shadow-deck-card: 0px 1px 3px $color-gray-medium-light;
+$box-shadow-deck-active-hover: 0px 0px 4px 8px $color-secondary;
+$box-shadow-player-active: 0px 0px 15px 5px $color-green-light;
+$box-shadow-player-reacting: 0px 0px 15px 5px $color-red-light;
+$box-shadow-dark: 0px 0px 6px 0px rgba(0, 0, 0, 0.4);
+
+$card-border-radius: 1rem;
+$card-width: 10rem;
+$card-height: 15rem;

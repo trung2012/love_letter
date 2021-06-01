@@ -1,0 +1,102 @@
+@import '../../../sass/_variables';
+@import '../../../sass/_animations';
+
+.player-info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem;
+  margin-bottom: 1.25rem;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: $box-shadow-player;
+  z-index: 1;
+  cursor: pointer;
+
+  &-container {
+    padding: 1rem;
+    padding-bottom: 2rem;
+  }
+
+  & > * {
+    margin-bottom: 1rem;
+  }
+
+  &--active {
+    box-shadow: $box-shadow-player-active;
+  }
+
+  &--reacting {
+    box-shadow: $box-shadow-player-reacting;
+  }
+}
+
+.player-role {
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.player-character-image {
+  max-width: 100%;
+
+  &-container {
+    overflow: hidden;
+    width: 12rem;
+    height: 11rem;
+    box-shadow: 0px 0px 0px 1px #acacac;
+    border-radius: 5px;
+  }
+}
+
+.sheriff-badge {
+  position: absolute;
+  top: -1.5rem;
+  right: -1.5rem;
+  height: 4.5rem;
+  width: 4.5rem;
+  filter: drop-shadow(0 0 0rem);
+}
+
+.player-name {
+  font-weight: bold;
+}
+
+.dynamite-explosion {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 400%;
+  opacity: 0;
+  z-index: -100;
+  filter: drop-shadow(0 0 0.5rem);
+}
+
+.jail-bars,
+.jail-bars--active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.jail-bars {
+  opacity: 0;
+  z-index: -100;
+  transform: translateY(-200rem);
+  transition: transform 0.4s cubic-bezier(1, 0.02, 0.88, 0.62),
+    opacity 0.2s cubic-bezier(1, 0.02, 0.88, 0.62);
+
+  &--active {
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform 0.3s cubic-bezier(0.94, 0.31, 0.83, 1.03),
+      opacity 0.3s cubic-bezier(1, 0.02, 0.88, 0.62);
+    z-index: 1;
+    filter: drop-shadow(0 0 0.1rem);
+  }
+}

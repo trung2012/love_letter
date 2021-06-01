@@ -1,0 +1,10 @@
+@import '../../../sass/_variables';
+
+.deck {
+  cursor: pointer;
+  border: solid 4px transparent;
+
+  &--active {
+    box-shadow: $box-shadow-deck-active;
+  }
+}

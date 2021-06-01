@@ -1,0 +1,13 @@
+.change-nickname {
+  text-align: center;
+  font-size: 1.8rem;
+
+  h2 {
+    margin-bottom: 3rem;
+  }
+
+  &-form {
+    display: flex;
+    justify-content: center;
+  }
+}

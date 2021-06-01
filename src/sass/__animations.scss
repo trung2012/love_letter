@@ -1,0 +1,63 @@
+@keyframes dashToRight {
+  to {
+    left: 100%;
+  }
+}
+@-webkit-keyframes dashToRight {
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes ribbonMain {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes ribbonEdge {
+  0%,
+  50% {
+    transform: scaleY(0);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes ribbonBack {
+  0%,
+  75% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes dropFromTop {
+  from {
+    transform: translateY(-200rem);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes returnToTop {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateY(-200rem);
+    opacity: 0;
+  }
+}
