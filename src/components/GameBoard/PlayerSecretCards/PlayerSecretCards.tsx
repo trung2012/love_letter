@@ -18,19 +18,12 @@ export const SecretCard = styled(Card)<{ index: number; isCurrentPlayer: boolean
 
 export const PlayerSecretCards: React.FC<IPlayerSecretCards> = ({ cards, playerId }) => {
   const { ctx, playerID, moves } = useGameContext();
-  const currentPlayerStage = (ctx.activePlayers
-    ? ctx.activePlayers[playerID!]
-    : 'none') as stageNames;
 
   if (!cards?.length) {
     return null;
   }
 
-  const onSecretCardClick = (index: number) => {
-    if (currentPlayerStage === stageNames.kitCarlsonDiscard) {
-      moves.kitCarlsonDiscard(index);
-    }
-  };
+  const onSecretCardClick = (index: number) => {};
 
   return (
     <Tippy content='Click a card to put back to the deck'>

@@ -1,5 +1,5 @@
 import { Ctx } from 'boardgame.io';
-import { IGamePlayer, IGameState } from './types';
+import { IGamePlayer, IGamePlayerMap, IGameState } from './types';
 
 export const shuffle = (ctx: Ctx, array: any[]) => {
   return (array = ctx.random?.Shuffle ? ctx.random.Shuffle(array) : array);
@@ -31,6 +31,21 @@ export const resetRound = (G: IGameState, ctx: Ctx) => {
   }
 
   dealCardToPlayers(G);
+  resetPlayers(G.players);
+};
+
+export const resetPlayers = (players: IGamePlayerMap) => {
+  for (const playerId in players) {
+    const player = players[playerId];
+    const newPlayer = {
+      ...player,
+      isDead: false,
+      numMovesLeft: 1,
+      cardDrawnAtStartLeft: 1,
+    };
+
+    players[playerId] = newPlayer;
+  }
 };
 
 export const emptyPlayerHandAndCardsPlayed = (G: IGameState, player: IGamePlayer) => {
@@ -59,3 +74,6 @@ export const dealCardToPlayers = (G: IGameState) => {
     }
   }
 };
+
+export const isRoundOver = (players: IGamePlayer[]) =>
+  players.every(player => player.isDead || player.hand.length === 1);

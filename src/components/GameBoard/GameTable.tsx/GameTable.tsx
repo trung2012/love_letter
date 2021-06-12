@@ -79,7 +79,6 @@ export const GameTable = () => {
 
             return player && <Player key={player.id} player={player} playerIndex={index} />;
           })}
-        <GeneralStore />
         <div className='common-cards'>
           <Deck deck={deck} />
           <Deck deck={spare} />
@@ -95,7 +94,6 @@ export const GameTable = () => {
           draggable
           pauseOnHover
         />
-        <InfoSidePane />
         {modalContent && (
           <Modal title={modalContent.title}>
             <span>{modalContent.text}</span>

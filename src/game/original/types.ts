@@ -5,6 +5,8 @@ export interface IGameState {
   pointsToWin: number;
   resetForNextRound: boolean;
   lastWinnerId: string;
+  phases: string[];
+  currentPhaseIndex: number;
 }
 
 export interface ICardToDiscard {
@@ -21,8 +23,9 @@ export interface IGamePlayer {
   cardsInPlay: ICard[];
   secretCards: ICard[];
   isDead: boolean;
-  isProtected: boolean;
   score: number;
+  numMovesLeft: number;
+  cardDrawnAtStartLeft: number;
 }
 
 export interface ICard {
@@ -32,6 +35,7 @@ export interface ICard {
   imageUrl: string;
   description?: string;
   isTargeted?: boolean;
+  rotationValue?: number;
 }
 
 export type CardName =
@@ -50,3 +54,6 @@ export interface IGameResult {
   winners: IGamePlayer[];
   team: string;
 }
+
+export const mainPhase = 'main';
+export const mainNextPhase = 'mainNext';

@@ -1,15 +1,23 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
-import { ActivePlayersArg, Ctx } from 'boardgame.io';
-import { CardName, ICard, ICardToDiscard, IGameState } from './types';
-
+import { Ctx } from 'boardgame.io';
+import { ICard, IGameState } from './types';
 import { stageNames } from './constants';
+import { isRoundOver } from './utils';
 
-export const endturn = (G: IGameState, ctx: Ctx) => {
-  endTurn(G, ctx);
+export const showdown = (G: IGameState, ctx: Ctx) => {
+  const players = ctx.playOrder.map(id => G.players[id]);
+
+  if (!G.deck.length && isRoundOver(players)) {
+    for (const player of players) {
+      discardHand(G, ctx, player.id);
+    }
+  }
 };
 
 export const endTurn = (G: IGameState, ctx: Ctx) => {
-  const currentPlayer = G.players[ctx.currentPlayer];
+  if (ctx.events?.endTurn) {
+    ctx.events.endTurn();
+  }
 };
 
 export const endStage = (G: IGameState, ctx: Ctx) => {
@@ -21,42 +29,39 @@ export const endStage = (G: IGameState, ctx: Ctx) => {
 export const playCard = (G: IGameState, ctx: Ctx, cardIndex: number, targetPlayerId: string) => {
   ctx.effects.swoosh();
   const targetPlayer = G.players[targetPlayerId];
-  const currentPlayer = G.players[ctx.currentPlayer];
+  const currentPlayer = G.players[ctx.playerID ?? ctx.currentPlayer];
   let cardToPlay = currentPlayer.hand.splice(cardIndex, 1)[0];
 
   targetPlayer.cardsInPlay.push(cardToPlay);
+  currentPlayer.numMovesLeft -= 1;
 };
 
-export const clearCardsInPlay = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
-  const targetPlayer = G.players[targetPlayerId];
-
-  while (targetPlayer.cardsInPlay.length > 0) {
-    const discardedCard = targetPlayer.cardsInPlay.shift();
-    if (discardedCard) {
-      ctx.effects.swoosh();
-    }
-  }
-};
-
-const drawFromDeck = (G: IGameState, ctx: Ctx, numberOfCards: number) => {
+export const drawFromDeck = (G: IGameState, ctx: Ctx, numberOfCards: number) => {
   const currentPlayer = G.players[ctx.currentPlayer];
   const newCards: ICard[] = G.deck.slice(G.deck.length - numberOfCards, G.deck.length);
   G.deck = G.deck.slice(0, G.deck.length - numberOfCards);
   currentPlayer.hand.push(...newCards);
+  currentPlayer.cardDrawnAtStartLeft = 0;
 };
 
-const drawOneFromDeck = (G: IGameState, ctx: Ctx) => {
+export const drawOneFromDeck = (G: IGameState, ctx: Ctx) => {
   drawFromDeck(G, ctx, 1);
 };
 
 const discardHand = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
-  const targetPlayer = G.players[targetPlayerId ?? ctx.currentPlayer];
+  const targetPlayer = G.players[targetPlayerId];
   while (targetPlayer.hand.length > 0) {
     const discarded = targetPlayer.hand.pop();
     if (discarded) {
       targetPlayer.cardsInPlay.push(discarded);
     }
   }
+};
+
+const die = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
+  const targetPlayer = G.players[targetPlayerId];
+  targetPlayer.isDead = true;
+  discardHand(G, ctx, targetPlayerId);
 };
 
 const groupPhoto = (G: IGameState, ctx: Ctx, targetPlayerId: string, guess: number) => {
@@ -97,10 +102,7 @@ const devilsAdvocate = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
   }
 };
 
-const oldPhoto = (G: IGameState, ctx: Ctx) => {
-  const currentPlayer = G.players[ctx.playerID ?? ctx.currentPlayer];
-  currentPlayer.isProtected = true;
-};
+const oldPhoto = (G: IGameState, ctx: Ctx) => {};
 
 const theGhost = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
   const targetPlayer = G.players[targetPlayerId];
@@ -150,6 +152,12 @@ const puppyLove = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
   }
 };
 
+const noFilter = (G: IGameState, ctx: Ctx) => {};
+
+const perfectMatch = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
+  die(G, ctx, targetPlayerId);
+};
+
 const putCardToBottomOfDeck = (G: IGameState, ctx: Ctx, secretCardIndex: number) => {
   const currentPlayer = G.players[ctx.currentPlayer];
   const cardToPutInDeck = currentPlayer.secretCards.splice(secretCardIndex, 1)[0];
@@ -159,6 +167,8 @@ const putCardToBottomOfDeck = (G: IGameState, ctx: Ctx, secretCardIndex: number)
   G.deck.unshift(cardToPutInDeck);
 };
 
+const endRound = (G: IGameState, ctx: Ctx) => {};
+
 export const moves = {
   drawFromDeck,
   drawOneFromDeck,
@@ -166,7 +176,7 @@ export const moves = {
   discardHand,
   playCard,
   endTurn,
-  endturn,
+  showdown,
   endStage,
   groupPhoto,
   theIntellectual,
@@ -175,6 +185,10 @@ export const moves = {
   oldPhoto,
   theGhost,
   puppyLove,
+  noFilter,
+  perfectMatch,
+  endRound,
+  die,
 };
 
 export default moves;

@@ -12,10 +12,13 @@ interface IDeckProps {
 
 export const Deck: React.FC<IDeckProps> = ({ deck }) => {
   const [isDeckDisabled, setIsDeckDisabled] = useState(false);
-  const { ctx, isActive, playerID, moves } = useGameContext();
+  const { G, ctx, isActive, playerID, moves } = useGameContext();
   const { setError } = useErrorContext();
 
   const onDeckClick = () => {
+    const player = G.players[playerID!];
+
+    if (player.cardDrawnAtStartLeft <= 0) return;
     if (!isActive) {
       setError(`It's not your turn yet`);
       return;
@@ -30,17 +33,15 @@ export const Deck: React.FC<IDeckProps> = ({ deck }) => {
   };
 
   return (
-    <Tippy content='Click to draw'>
-      <div>
-        <CardPile
-          className={classnames('deck', {
-            'deck--active': isActive && playerID === ctx.currentPlayer,
-          })}
-          cards={deck}
-          isFacedUp={false}
-          onClick={isDeckDisabled ? () => {} : onDeckClick}
-        />
-      </div>
-    </Tippy>
+    <div>
+      <CardPile
+        className={classnames('deck', {
+          'deck--active': isActive && playerID === ctx.currentPlayer,
+        })}
+        cards={deck}
+        isFacedUp={false}
+        onClick={isDeckDisabled ? () => {} : onDeckClick}
+      />
+    </div>
   );
 };

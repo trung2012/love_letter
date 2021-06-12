@@ -14,8 +14,6 @@ interface ICardFrontProps {
 
 export const CardFront = React.forwardRef<HTMLDivElement, ICardFrontProps>(
   ({ card, className, disabled, style, onContextMenu, onClick }, cardRef) => {
-    const cardValue = cardDisplayValue[card.value];
-
     return (
       <div
         id={card.id}
@@ -35,14 +33,6 @@ export const CardFront = React.forwardRef<HTMLDivElement, ICardFrontProps>(
         }}
       >
         <img className='card-image' src={card.imageUrl} alt='card' />
-        <div className='card-value-container'>
-          <span className='card-value'>{cardValue ?? card.value}</span>
-          <img
-            className='card-suit'
-            src={require(`../../../assets/suit_${card.suit}.png`)}
-            alt='card-suit'
-          />
-        </div>
       </div>
     );
   }
