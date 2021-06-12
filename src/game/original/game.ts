@@ -32,12 +32,18 @@ const game: Game<IGameState> = {
       ...TurnOrder.DEFAULT,
       first: (G, ctx) => {
         const allPlayerIds = Object.keys(G.players);
-        return 0;
+        const randomPlayerId = allPlayerIds[Math.floor(Math.random() * allPlayerIds.length)];
+        return Number(G.lastWinnerId ?? randomPlayerId);
       },
     },
     stages,
     onMove: (G, ctx) => {},
-    onBegin: (G, ctx) => {},
+    onBegin: (G, ctx) => {
+      for (const id in G.players) {
+        const player = G.players[id];
+        player.isProtected = false;
+      }
+    },
     onEnd: (G, ctx) => {},
   },
 };

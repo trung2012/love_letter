@@ -1,8 +1,7 @@
 import React, { useContext, useState } from 'react';
-import { RobbingType } from '../../game';
 
 export type SelectedCards = {
-  [K in RobbingType]: number[];
+  [key: string]: number[];
 };
 
 export interface ICardsContext {

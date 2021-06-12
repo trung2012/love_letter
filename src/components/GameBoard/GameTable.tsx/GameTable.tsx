@@ -14,10 +14,10 @@ import { CustomButton } from '../../shared';
 import { useModalContext } from '../../../context/modal';
 
 export const GameTable = () => {
-  const { G, ctx, moves, playersInfo, playerID, isActive } = useGameContext();
+  const { G, ctx, moves, playersInfo, playerID } = useGameContext();
   const { error, setError, notification, setNotification } = useErrorContext();
   const { modalContent, setModalContent } = useModalContext();
-  const { players } = G;
+  const { players, deck, spare } = G;
 
   const clientPlayerIndex = playersInfo?.findIndex(p => playerID === p.id.toString());
   const renderedPlayers =
@@ -66,19 +66,6 @@ export const GameTable = () => {
     }
   }, [notification, setNotification]);
 
-  useEffect(() => {
-    if (ctx.phase === 'reselectCharacter' && isActive) {
-      setModalContent({
-        title: 'Character selection',
-        text: 'Do you want to keep this character?',
-        buttons: [
-          { text: 'Keep character', moveName: 'endTurn' },
-          { text: 'No, get a different one', moveName: 'reselectCharacter' },
-        ],
-      });
-    }
-  }, [ctx.phase, isActive, setModalContent]);
-
   if (ctx.gameover) {
     return <GameOver gameResult={ctx.gameover} />;
   }
@@ -94,8 +81,8 @@ export const GameTable = () => {
           })}
         <GeneralStore />
         <div className='common-cards'>
-          <Deck />
-          <Discarded />
+          <Deck deck={deck} />
+          <Deck deck={spare} />
         </div>
         <ToastContainer
           position='top-center'

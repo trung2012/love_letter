@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { RobbingType } from '../../../game';
 import { IDragComponentDragState, IDraggableDragState } from './DraggableCard.types';
 
 export const DraggableCardContainer = styled.div<{
@@ -7,7 +6,6 @@ export const DraggableCardContainer = styled.div<{
   cardId: string;
   index: number;
   isClientPlayer: boolean;
-  cardLocation: RobbingType;
 }>(props => ({
   display:
     props.draggableDragState.isDragging &&
@@ -18,14 +16,6 @@ export const DraggableCardContainer = styled.div<{
     transform: 'translateY(-15%)',
   },
   zIndex: 1,
-  ':hover': {
-    transform: props.isClientPlayer
-      ? props.cardLocation === 'hand'
-        ? 'translateY(-3rem)'
-        : 'translateY(-1rem)'
-      : 'none',
-    zIndex: props.cardLocation === 'hand' ? 1 : 10,
-  },
 }));
 
 export const DragComponentContainer = styled.div<{

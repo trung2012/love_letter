@@ -1,6 +1,10 @@
 export interface IGameState {
   deck: ICard[];
+  spare: ICard[];
   players: IGamePlayerMap;
+  pointsToWin: number;
+  resetForNextRound: boolean;
+  lastWinnerId: string;
 }
 
 export interface ICardToDiscard {
@@ -17,6 +21,8 @@ export interface IGamePlayer {
   cardsInPlay: ICard[];
   secretCards: ICard[];
   isDead: boolean;
+  isProtected: boolean;
+  score: number;
 }
 
 export interface ICard {

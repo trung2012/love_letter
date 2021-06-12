@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import { ICard } from '../../../game';
-import cardBackImg from '../../../assets/card_back.png';
+import cardBackImg from '../../../assets/card_back.jpg';
 
 interface ICardBackProps {
   card: ICard;

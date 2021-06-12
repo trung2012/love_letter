@@ -3,8 +3,7 @@ import classnames from 'classnames';
 import { useGameContext } from '../../../context';
 import { IGamePlayer } from '../../../game';
 import { PlayerDead } from '../PlayerDead';
-import explosionImg from '../../../assets/explosion.png';
-import jailImg from '../../../assets/jail.png';
+import playerImg from '../../../assets/placeholder.png';
 import './PlayerInfo.scss';
 import { Droppable } from 'react-dragtastic';
 import { IDraggableCardData } from '../DraggableCard/DraggableCard.types';
@@ -24,7 +23,7 @@ export const PlayerInfo: React.FC<IPlayerInfoProps> = ({ player }) => {
 
   const onDrop = (data: IDraggableCardData) => {
     if (!playersInfo?.length) throw Error('Something went wrong');
-    const { sourcePlayerId } = data;
+    const { sourcePlayerId, sourceCard, sourceCardIndex, sourceCardLocation } = data;
   };
 
   if (player.isDead) {
@@ -56,7 +55,9 @@ export const PlayerInfo: React.FC<IPlayerInfoProps> = ({ player }) => {
               className={classnames('player-character-image-container', {
                 'player-character-image-container--active': isActivePlayer,
               })}
-            ></div>
+            >
+              <img className='player-character-image' src={playerImg} alt='player' />
+            </div>
           </div>
         )}
       </Droppable>
