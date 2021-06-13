@@ -1,7 +1,7 @@
 import { Game } from 'boardgame.io';
 import { TurnOrder } from 'boardgame.io/core';
 import { EffectsPlugin } from 'bgio-effects/plugin';
-import moves, { discardHand, drawOneFromDeck } from './moves';
+import moves, { discardHand, drawOneFromDeck, resetRound } from './moves';
 import phases from './phases';
 import setup from './setup';
 import stages from './stages';
@@ -73,6 +73,15 @@ const game: Game<IGameState> = {
         winner.score++;
         G.prevWinnerIds = [winner.id];
         ctx.events?.endTurn?.({ next: winner.id });
+
+        const playersWithCatfish = players.filter(player =>
+          player.cardsInPlay.find(card => card.name === 'catfish')
+        );
+
+        if (playersWithCatfish.length === 1) {
+          playersWithCatfish[0].score++;
+        }
+        resetRound(G, ctx);
       }
     },
     onEnd: (G, ctx) => {

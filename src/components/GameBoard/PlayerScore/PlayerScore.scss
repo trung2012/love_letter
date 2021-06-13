@@ -1,0 +1,16 @@
+.player-score {
+  &-container {
+    display: flex;
+
+    & > * {
+      width: 2.5rem;
+      height: 2.5rem;
+      margin-right: 0.5rem;
+      filter: drop-shadow(0 0 0.1rem);
+    }
+
+    img {
+      width: 100%;
+    }
+  }
+}

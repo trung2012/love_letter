@@ -25,6 +25,10 @@ export const resetPlayers = (players: IGamePlayerMap) => {
   }
 };
 
+export const getLastCardPlayed = (player: IGamePlayer) => {
+  return player.cardsInPlay[player.cardsInPlay.length - 1];
+};
+
 export const emptyPlayerHandAndCardsPlayed = (G: IGameState, player: IGamePlayer) => {
   while (player.hand.length > 0) {
     const card = player.hand.pop();
@@ -64,8 +68,8 @@ export const shouldNoFilterBePlayed = (hand: ICard[]) =>
 
 export const getRoundResult = (G: IGameState, ctx: Ctx) => {
   const players = ctx.playOrder.map(id => G.players[id]);
-  const isRoundOverWithoutWinner = isRoundOverWithNoWinner(G, players);
   const playersAlive = players.filter(player => !player.isDead);
+  const isRoundOverWithoutWinner = isRoundOverWithNoWinner(G, players);
   if (!isRoundOverWithoutWinner) return [];
 
   let maxVal = -1;
@@ -78,4 +82,15 @@ export const getRoundResult = (G: IGameState, ctx: Ctx) => {
     }
   }
   return winners;
+};
+
+export const getPlayersAlive = (G: IGameState, ctx: Ctx) => {
+  const players = ctx.playOrder.map(id => G.players[id]);
+  return players.filter(player => !player.isDead);
+};
+
+export const isEveryoneElseProtected = (G: IGameState, ctx: Ctx) => {
+  const playersAlive = getPlayersAlive(G, ctx);
+  const otherPlayersAlive = playersAlive.filter(player => player.id !== ctx.currentPlayer);
+  return otherPlayersAlive.every(player => getLastCardPlayed(player).name === 'old photo');
 };

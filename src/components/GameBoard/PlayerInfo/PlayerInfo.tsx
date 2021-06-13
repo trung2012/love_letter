@@ -1,7 +1,13 @@
 import React from 'react';
 import classnames from 'classnames';
 import { useErrorContext, useGameContext } from '../../../context';
-import { allCardValuesExcept1, cardValueToNameMap, IGamePlayer } from '../../../game';
+import {
+  allCardValuesExcept1,
+  cardValueToNameMap,
+  getLastCardPlayed,
+  IGamePlayer,
+  shouldNoFilterBePlayed,
+} from '../../../game';
 import { PlayerDead } from '../PlayerDead';
 import playerImg from '../../../assets/placeholder.png';
 import './PlayerInfo.scss';
@@ -27,8 +33,14 @@ export const PlayerInfo: React.FC<IPlayerInfoProps> = ({ player }) => {
     if (!isActive || player.isDead) return;
     if (!playersInfo?.length) throw Error('Something went wrong');
     const { sourcePlayerId, sourceCard, sourceCardIndex } = data;
+    const sourcePlayer = G.players[sourcePlayerId];
 
-    const lastCardPlayed = player.cardsInPlay[player.cardsInPlay.length - 1];
+    if (shouldNoFilterBePlayed(sourcePlayer.hand) && sourceCard.name !== 'no filter') {
+      setError(`You must play #No Filter`);
+      return;
+    }
+
+    const lastCardPlayed = getLastCardPlayed(player);
     if (lastCardPlayed && lastCardPlayed.name === 'old photo') {
       setError(`This player is being protected. Select a different target`);
       return;

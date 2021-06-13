@@ -1,3 +1,5 @@
+import { CardName } from './types';
+
 export const delayBetweenActions = 2000;
 export const animationDelayMilliseconds = 900;
 export const animationDelaySeconds = animationDelayMilliseconds / 1000;
@@ -22,3 +24,5 @@ export const cardValueToNameMap: Record<number, string> = {
 };
 
 export const allCardValuesExcept1 = [0, 2, 3, 4, 5, 6, 7, 8, 9];
+
+export const cardsWhichMustBePlayedOnSelf: CardName[] = ['the ghost'];

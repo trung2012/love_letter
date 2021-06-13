@@ -2,7 +2,14 @@ import React, { Dispatch, Fragment, SetStateAction, useState } from 'react';
 import classnames from 'classnames';
 import { Draggable, DragComponent } from 'react-dragtastic';
 import { useCardsContext, useErrorContext, useGameContext } from '../../../context';
-import { delayBetweenActions, ICard, needsToDraw, shouldNoFilterBePlayed } from '../../../game';
+import {
+  cardsWhichMustBePlayedOnSelf,
+  delayBetweenActions,
+  ICard,
+  isEveryoneElseProtected,
+  needsToDraw,
+  shouldNoFilterBePlayed,
+} from '../../../game';
 import { Card } from '../Card';
 import './DraggableCard.scss';
 import { DraggableCardContainer, DragComponentContainer } from './DraggableCard.styles';
@@ -37,6 +44,11 @@ const DraggableCardComponent: React.FC<IDraggableCardProps> = ({
   const onCardClickToPlay = () => {
     if (!isActive) {
       setError(`It's not your turn`);
+      return;
+    }
+
+    if (isEveryoneElseProtected(G, ctx) && !cardsWhichMustBePlayedOnSelf.includes(card.name)) {
+      moves.playCard(index, playerID);
       return;
     }
 

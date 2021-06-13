@@ -29,6 +29,11 @@ export const resetRound = (G: IGameState, ctx: Ctx) => {
     emptyPlayerHandAndCardsPlayed(G, player);
   }
 
+  const oldSpareCard = G.spare.pop();
+  if (oldSpareCard) {
+    G.deck.push(oldSpareCard);
+  }
+
   if (ctx?.random?.Shuffle) {
     G.deck = ctx.random?.Shuffle(G.deck);
   }
@@ -216,6 +221,8 @@ const returnCard = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
   if (cardToReturn) {
     targetPlayer.hand.push(cardToReturn);
   }
+
+  G.fishGuyState = undefined;
 };
 
 const endRound = (G: IGameState, ctx: Ctx) => {};
