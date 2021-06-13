@@ -62,7 +62,7 @@ export const GameOver: React.FC<IGameOverProps> = ({ gameResult }) => {
       <div className='game-result-winners'>
         {winners.map(player => (
           <div className='game-result-winner' key={player.id}>
-            {player.name && <span>{player.name}</span>} Won!
+            {player.name && <span>{player.name} Won!</span>}
           </div>
         ))}
       </div>
