@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import { useErrorContext, useGameContext } from '../../../context';
-import { Deck, Discarded } from '../Deck';
+import { Deck } from '../Deck';
 import { GameOver } from '../GameOver';
 import { GeneralStore } from '../GeneralStore';
 import { Player } from '../Player';
