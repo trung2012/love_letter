@@ -68,7 +68,7 @@ export const playCard = (G: IGameState, ctx: Ctx, cardIndex: number, targetPlaye
   ctx.effects.swoosh();
   const targetPlayer = G.players[targetPlayerId];
   const currentPlayer = G.players[ctx.playerID ?? ctx.currentPlayer];
-  let cardToPlay = currentPlayer.hand.splice(cardIndex, 1)[0];
+  const cardToPlay = currentPlayer.hand.splice(cardIndex, 1)[0];
 
   targetPlayer.cardsInPlay.push(cardToPlay);
   currentPlayer.numMovesLeft -= 1;

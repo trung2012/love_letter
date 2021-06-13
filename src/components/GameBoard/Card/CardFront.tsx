@@ -1,7 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
 import { ICard } from '../../../game';
-import { cardDisplayValue } from './Card.constants';
 
 interface ICardFrontProps {
   card: ICard;

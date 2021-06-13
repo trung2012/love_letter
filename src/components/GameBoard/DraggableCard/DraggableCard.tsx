@@ -1,7 +1,6 @@
 import React, { Dispatch, Fragment, SetStateAction, useState } from 'react';
-import classnames from 'classnames';
 import { Draggable, DragComponent } from 'react-dragtastic';
-import { useCardsContext, useErrorContext, useGameContext } from '../../../context';
+import { useErrorContext, useGameContext } from '../../../context';
 import {
   cardsWhichMustBePlayedOnSelf,
   delayBetweenActions,

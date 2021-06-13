@@ -3,7 +3,7 @@ import { Droppable } from 'react-dragtastic';
 import { Card } from '../Card';
 import './DroppableCard.scss';
 import { useErrorContext, useGameContext } from '../../../context';
-import { delayBetweenActions, ICard } from '../../../game';
+import { ICard } from '../../../game';
 import styled from '@emotion/styled';
 import { IDraggableCardData } from '../DraggableCard/DraggableCard.types';
 interface IDroppableCardProps {

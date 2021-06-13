@@ -1,5 +1,5 @@
 import { State } from 'react-dragtastic';
-import { ICard, RobbingType } from '../../../game';
+import { ICard } from '../../../game';
 
 export type IDraggableDragState = State & {
   isActive: boolean;
@@ -27,5 +27,4 @@ export interface IDraggableCardData {
   sourceCard: ICard;
   sourceCardIndex: number;
   sourcePlayerId: string;
-  sourceCardLocation: RobbingType;
 }

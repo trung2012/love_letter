@@ -4,7 +4,6 @@ import { animationDelayMilliseconds, ICard } from '../../../game';
 import { CardPile } from './CardPile';
 import classnames from 'classnames';
 import './Deck.scss';
-import Tippy from '@tippyjs/react';
 
 interface IDeckProps {
   deck: ICard[];

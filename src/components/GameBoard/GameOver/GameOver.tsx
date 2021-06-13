@@ -1,11 +1,9 @@
 import gsap, { Back } from 'gsap';
 import React, { useEffect } from 'react';
-import useSound from 'use-sound';
 import { useHistory, useParams } from 'react-router-dom';
 import { useGameContext } from '../../../context';
 import { IGameResult } from '../../../game';
 import { CustomButton } from '../../shared';
-import { Ribbon } from '../../shared/Ribbon';
 import './GameOver.scss';
 import { lobbyService } from '../../../api';
 import { useSelector } from 'react-redux';

@@ -1,7 +1,6 @@
 import React from 'react';
 import { CreateGameButton } from './CreateGameButton';
 import './CreateGame.scss';
-import { Toggles } from '../shared/Toggles';
 import { numPlayers } from '../../game';
 import { useDispatch, useSelector } from 'react-redux';
 import { createGameRoom, selectSetUpData } from '../../store';

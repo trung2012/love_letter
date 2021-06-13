@@ -1,6 +1,4 @@
-import { TurnOrder } from 'boardgame.io/core';
-import { Ctx, PhaseConfig } from 'boardgame.io';
-import { IGameState, mainNextPhase, mainPhase } from './types';
+import { PhaseConfig } from 'boardgame.io';
 
 interface IGamePhases {
   [phaseName: string]: PhaseConfig;

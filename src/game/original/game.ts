@@ -1,13 +1,12 @@
 import { Game } from 'boardgame.io';
 import { TurnOrder } from 'boardgame.io/core';
 import { EffectsPlugin } from 'bgio-effects/plugin';
-import moves, { discardHand, drawOneFromDeck, resetRound } from './moves';
+import moves, { drawOneFromDeck, resetRound } from './moves';
 import phases from './phases';
 import setup from './setup';
 import stages from './stages';
 import { IGamePlayer, IGameResult, IGameState } from './types';
 import { config } from './effects';
-import { isRoundOverWithNoWinner, resetPlayers } from './utils';
 
 declare module 'boardgame.io' {
   interface Ctx {
@@ -26,7 +25,7 @@ const game: Game<IGameState> = {
   moves,
   phases,
   endIf: (G, ctx): IGameResult | undefined => {
-    let winners: IGamePlayer[] = [];
+    const winners: IGamePlayer[] = [];
     for (const id in G.players) {
       const player = G.players[id];
       if (player.score >= G.pointsToWin) {

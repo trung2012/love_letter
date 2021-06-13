@@ -12,10 +12,10 @@ export interface ILocationState {
 }
 
 export const ChangeNickName = () => {
-  let location = useLocation<ILocationState>();
+  const location = useLocation<ILocationState>();
   const history = useHistory();
 
-  let { from } = location.state || { from: { pathname: '/' } };
+  const { from } = location.state || { from: { pathname: '/' } };
 
   const dispatch = useDispatch();
   const playerName = useSelector(selectPlayerName);

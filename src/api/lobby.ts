@@ -52,7 +52,7 @@ const playAgain = async (
   setupData: ISetupData
 ) => {
   try {
-    let requestBody = { playerID: playerId, credentials, setupData };
+    const requestBody = { playerID: playerId, credentials, setupData };
 
     const { data } = await axios.post(`/${roomId}/playAgain`, requestBody);
     return data.nextMatchID;
