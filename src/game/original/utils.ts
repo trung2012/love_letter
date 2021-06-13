@@ -63,8 +63,7 @@ export const needsToDraw = (player: IGamePlayer) => player.cardDrawnAtStartLeft 
 
 export const shouldNoFilterBePlayed = (hand: ICard[]) =>
   hand.find(card => card.name === 'no filter') &&
-  hand.find(card => card.name === 'the ghost') &&
-  hand.find(card => card.name === 'puppy love');
+  (hand.find(card => card.name === 'the ghost') || hand.find(card => card.name === 'puppy love'));
 
 export const getRoundResult = (G: IGameState, ctx: Ctx) => {
   const players = ctx.playOrder.map(id => G.players[id]);
