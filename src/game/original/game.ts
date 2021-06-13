@@ -29,7 +29,7 @@ const game: Game<IGameState> = {
     let winners: IGamePlayer[] = [];
     for (const id in G.players) {
       const player = G.players[id];
-      if (player.score > G.pointsToWin) {
+      if (player.score >= G.pointsToWin) {
         winners.push(player);
       }
     }
