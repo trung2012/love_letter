@@ -91,5 +91,8 @@ export const getPlayersAlive = (G: IGameState, ctx: Ctx) => {
 export const isEveryoneElseProtected = (G: IGameState, ctx: Ctx) => {
   const playersAlive = getPlayersAlive(G, ctx);
   const otherPlayersAlive = playersAlive.filter(player => player.id !== ctx.currentPlayer);
-  return otherPlayersAlive.every(player => getLastCardPlayed(player).name === 'old photo');
+  return otherPlayersAlive.every(player => {
+    const lastCardPlayed = getLastCardPlayed(player);
+    return lastCardPlayed?.name === 'old photo';
+  });
 };
