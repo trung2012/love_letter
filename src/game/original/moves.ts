@@ -97,7 +97,7 @@ export const discardHand = (G: IGameState, ctx: Ctx, targetPlayerId: string) => 
 };
 
 const die = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
-  const targetPlayer = G.players[targetPlayerId];
+  const targetPlayer = G.players[ctx.playerID ?? ctx.currentPlayer];
   targetPlayer.isDead = true;
   discardHand(G, ctx, targetPlayerId);
 };
