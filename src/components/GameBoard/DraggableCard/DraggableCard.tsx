@@ -2,11 +2,13 @@ import React, { Dispatch, Fragment, SetStateAction, useState } from 'react';
 import classnames from 'classnames';
 import { Draggable, DragComponent } from 'react-dragtastic';
 import { useCardsContext, useErrorContext, useGameContext } from '../../../context';
-import { ICard } from '../../../game';
+import { delayBetweenActions, ICard, needsToDraw, shouldNoFilterBePlayed } from '../../../game';
 import { Card } from '../Card';
 import './DraggableCard.scss';
 import { DraggableCardContainer, DragComponentContainer } from './DraggableCard.styles';
 import Tippy from '@tippyjs/react';
+import { getCardInstructions } from './DraggableCard.utils';
+import { toCamelCase } from '../../../utils';
 
 interface IDraggableCardProps {
   card: ICard;
@@ -32,7 +34,38 @@ const DraggableCardComponent: React.FC<IDraggableCardProps> = ({
   const clientPlayer = players[playerID!];
   const isTargetPlayerTurn = playerId === playerID;
 
-  const onCardClickToPlay = () => {};
+  const onCardClickToPlay = () => {
+    if (!isActive) {
+      setError(`It's not your turn`);
+      return;
+    }
+
+    if (card.isTargeted) return;
+
+    if (shouldNoFilterBePlayed(clientPlayer.hand) && card.name !== 'no filter') {
+      setError(`You must play #No Filter`);
+      return;
+    }
+
+    const moveName = toCamelCase(card.name);
+    console.log(moveName);
+    if (!moves[moveName]) {
+      throw Error('Move does not exist');
+    }
+
+    if (needsToDraw(clientPlayer)) {
+      setError(`Please draw first`);
+      return;
+    }
+
+    moves.playCard(index, playerID);
+
+    setTimeout(() => {
+      moves[moveName]();
+    }, delayBetweenActions);
+
+    return;
+  };
 
   return (
     <Fragment>
@@ -46,8 +79,9 @@ const DraggableCardComponent: React.FC<IDraggableCardProps> = ({
         }}
       >
         {draggableDragState => (
-          <Tippy delay={[500, 0]} content={`Drag and drop onto another player to play`}>
+          <Tippy delay={[500, 0]} content={getCardInstructions(card)}>
             <DraggableCardContainer
+              className='draggable-card'
               {...draggableDragState.events}
               draggableDragState={draggableDragState}
               cardId={card.id}

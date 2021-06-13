@@ -73,7 +73,7 @@
     }
 
     .player-cards-in-play {
-      transform: translate(5rem, -20rem);
+      transform: translate(50%, -30rem);
       z-index: 1;
     }
   }
@@ -92,13 +92,9 @@
         left: $card-width * 2;
       }
 
-      .player-hand {
-        transform: translateX(3rem) rotate(5deg);
-      }
-
       .player-cards-in-play {
         left: -$card-width;
-        top: $card-height * 0.2;
+        top: $card-height * 1.5;
       }
     }
   }

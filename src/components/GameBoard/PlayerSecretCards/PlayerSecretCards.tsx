@@ -17,13 +17,22 @@ export const SecretCard = styled(Card)<{ index: number; isCurrentPlayer: boolean
 `;
 
 export const PlayerSecretCards: React.FC<IPlayerSecretCards> = ({ cards, playerId }) => {
-  const { ctx, playerID, moves } = useGameContext();
+  const { G, playerID, moves, isActive } = useGameContext();
 
   if (!cards?.length) {
     return null;
   }
 
-  const onSecretCardClick = (index: number) => {};
+  const onSecretCardClick = (index: number) => {
+    if (!isActive) return;
+
+    if (G.fishGuyState?.targetPlayerId) {
+      moves.returnCard(G.fishGuyState.targetPlayerId);
+      return;
+    }
+
+    moves.putCardToBottomOfDeck(index);
+  };
 
   return (
     <Tippy content='Click a card to put back to the deck'>

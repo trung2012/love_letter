@@ -16,6 +16,9 @@ export const DraggableCardContainer = styled.div<{
     transform: 'translateY(-15%)',
   },
   zIndex: 1,
+  ':hover': {
+    transform: 'translateY(-2rem)',
+  },
 }));
 
 export const DragComponentContainer = styled.div<{

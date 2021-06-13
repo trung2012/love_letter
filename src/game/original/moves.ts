@@ -2,16 +2,49 @@ import { INVALID_MOVE } from 'boardgame.io/core';
 import { Ctx } from 'boardgame.io';
 import { ICard, IGameState } from './types';
 import { stageNames } from './constants';
-import { isRoundOver } from './utils';
+import { dealCardToPlayers, emptyPlayerHandAndCardsPlayed, resetPlayers } from './utils';
 
 export const showdown = (G: IGameState, ctx: Ctx) => {
   const players = ctx.playOrder.map(id => G.players[id]);
 
-  if (!G.deck.length && isRoundOver(players)) {
-    for (const player of players) {
-      discardHand(G, ctx, player.id);
-    }
+  for (const player of players) {
+    discardHand(G, ctx, player.id);
   }
+
+  const playersWithCatfish = players.filter(player =>
+    player.cardsInPlay.find(card => card.name === 'catfish')
+  );
+
+  if (playersWithCatfish.length === 1) {
+    playersWithCatfish[0].score++;
+  }
+};
+
+export const resetRound = (G: IGameState, ctx: Ctx) => {
+  const { players } = G;
+
+  for (const id in players) {
+    const player = players[id];
+
+    emptyPlayerHandAndCardsPlayed(G, player);
+  }
+
+  if (ctx?.random?.Shuffle) {
+    G.deck = ctx.random?.Shuffle(G.deck);
+  }
+
+  const spareCard = G.deck.pop();
+
+  if (spareCard) {
+    G.spare.push(spareCard);
+  }
+
+  dealCardToPlayers(G);
+  resetPlayers(G.players);
+
+  const allPlayerIds = Object.keys(G.players);
+  const randomPlayerId = allPlayerIds[Math.floor(Math.random() * allPlayerIds.length)];
+  ctx.events?.endTurn?.({ next: G.prevWinnerIds[0] ?? randomPlayerId });
 };
 
 export const endTurn = (G: IGameState, ctx: Ctx) => {
@@ -48,7 +81,7 @@ export const drawOneFromDeck = (G: IGameState, ctx: Ctx) => {
   drawFromDeck(G, ctx, 1);
 };
 
-const discardHand = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
+export const discardHand = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
   const targetPlayer = G.players[targetPlayerId];
   while (targetPlayer.hand.length > 0) {
     const discarded = targetPlayer.hand.pop();
@@ -83,6 +116,10 @@ const fishGuy = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
   if (cardToSee) {
     currentPlayer.secretCards.push(cardToSee);
   }
+
+  G.fishGuyState = {
+    targetPlayerId,
+  };
 };
 
 const devilsAdvocate = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
@@ -126,6 +163,10 @@ const theIntellectual = (G: IGameState, ctx: Ctx) => {
   const newCards: ICard[] = G.deck.slice(G.deck.length - 2, G.deck.length);
   G.deck = G.deck.slice(0, G.deck.length - 2);
   currentPlayer.secretCards.push(...newCards);
+  const hand = currentPlayer.hand.pop();
+  if (hand) {
+    currentPlayer.secretCards.push(hand);
+  }
 
   if (ctx.events?.setActivePlayers) {
     ctx.events.setActivePlayers({
@@ -153,6 +194,7 @@ const puppyLove = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
 };
 
 const noFilter = (G: IGameState, ctx: Ctx) => {};
+const catfish = (G: IGameState, ctx: Ctx) => {};
 
 const perfectMatch = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
   die(G, ctx, targetPlayerId);
@@ -165,6 +207,15 @@ const putCardToBottomOfDeck = (G: IGameState, ctx: Ctx, secretCardIndex: number)
   if (!cardToPutInDeck) return INVALID_MOVE;
 
   G.deck.unshift(cardToPutInDeck);
+};
+
+const returnCard = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
+  const currentPlayer = G.players[ctx.currentPlayer];
+  const targetPlayer = G.players[targetPlayerId];
+  const cardToReturn = currentPlayer.secretCards.pop();
+  if (cardToReturn) {
+    targetPlayer.hand.push(cardToReturn);
+  }
 };
 
 const endRound = (G: IGameState, ctx: Ctx) => {};
@@ -189,6 +240,9 @@ export const moves = {
   perfectMatch,
   endRound,
   die,
+  catfish,
+  resetRound,
+  returnCard,
 };
 
 export default moves;

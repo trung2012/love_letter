@@ -1,6 +1,7 @@
 export const config = {
   effects: {
     takeDamage: {},
+    swoosh: {},
   },
 };
 

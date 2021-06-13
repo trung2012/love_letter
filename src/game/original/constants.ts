@@ -20,3 +20,5 @@ export const cardValueToNameMap: Record<number, string> = {
   8: '#No Filter',
   9: 'Perfect Match',
 };
+
+export const allCardValuesExcept1 = [0, 2, 3, 4, 5, 6, 7, 8, 9];

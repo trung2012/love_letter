@@ -1,5 +1,5 @@
 import { Ctx } from 'boardgame.io';
-import { IGamePlayer, IGamePlayerMap, IGameState } from './types';
+import { ICard, IGamePlayer, IGamePlayerMap, IGameState } from './types';
 
 export const shuffle = (ctx: Ctx, array: any[]) => {
   return (array = ctx.random?.Shuffle ? ctx.random.Shuffle(array) : array);
@@ -9,29 +9,6 @@ export const getNumPointsToWin = (numPlayers: number) => {
   if (numPlayers <= 2) return 6;
   if (numPlayers <= 4) return 4;
   if (numPlayers <= 6) return 3;
-};
-
-export const resetRound = (G: IGameState, ctx: Ctx) => {
-  const { players } = G;
-
-  for (const id in players) {
-    const player = players[id];
-
-    emptyPlayerHandAndCardsPlayed(G, player);
-  }
-
-  if (ctx?.random?.Shuffle) {
-    G.deck = ctx.random?.Shuffle(G.deck);
-  }
-
-  const spareCard = G.deck.pop();
-
-  if (spareCard) {
-    G.spare.push(spareCard);
-  }
-
-  dealCardToPlayers(G);
-  resetPlayers(G.players);
 };
 
 export const resetPlayers = (players: IGamePlayerMap) => {
@@ -75,5 +52,30 @@ export const dealCardToPlayers = (G: IGameState) => {
   }
 };
 
-export const isRoundOver = (players: IGamePlayer[]) =>
-  players.every(player => player.isDead || player.hand.length === 1);
+export const isRoundOverWithNoWinner = (G: IGameState, players: IGamePlayer[]) =>
+  !G.deck.length && players.every(player => player.isDead || player.hand.length === 1);
+
+export const needsToDraw = (player: IGamePlayer) => player.cardDrawnAtStartLeft > 0;
+
+export const shouldNoFilterBePlayed = (hand: ICard[]) =>
+  hand.find(card => card.name === 'no filter') &&
+  hand.find(card => card.name === 'the ghost') &&
+  hand.find(card => card.name === 'puppy love');
+
+export const getRoundResult = (G: IGameState, ctx: Ctx) => {
+  const players = ctx.playOrder.map(id => G.players[id]);
+  const isRoundOverWithoutWinner = isRoundOverWithNoWinner(G, players);
+  const playersAlive = players.filter(player => !player.isDead);
+  if (!isRoundOverWithoutWinner) return [];
+
+  let maxVal = -1;
+  let winners: IGamePlayer[] = [];
+  for (const player of playersAlive) {
+    const playerHandValue = player.cardsInPlay[player.cardsInPlay.length - 1].value;
+    if (playerHandValue >= maxVal) {
+      winners.push(player);
+      maxVal = playerHandValue;
+    }
+  }
+  return winners;
+};

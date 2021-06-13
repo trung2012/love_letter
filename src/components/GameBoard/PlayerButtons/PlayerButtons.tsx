@@ -2,11 +2,11 @@ import React from 'react';
 import { useErrorContext, useGameContext } from '../../../context';
 import { PlayerButton } from './PlayerButton';
 import { ReactComponent as PassIcon } from '../../../assets/pass.svg';
-import { IGamePlayer } from '../../../game';
+import { delayBetweenActions, getRoundResult, IGamePlayer, needsToDraw } from '../../../game';
 import './PlayerButtons.scss';
 
 export const PlayerButtonsComponent: React.FC<{ player: IGamePlayer }> = ({ player }) => {
-  const { ctx, moves, playerID, isActive } = useGameContext();
+  const { G, ctx, moves, playerID, isActive } = useGameContext();
   const { setError } = useErrorContext();
   const isClientPlayer = playerID === player.id;
   const isCurrentPlayer = isClientPlayer && player.id === ctx.currentPlayer;
@@ -17,7 +17,29 @@ export const PlayerButtonsComponent: React.FC<{ player: IGamePlayer }> = ({ play
       return;
     }
 
+    if (needsToDraw(player)) {
+      setError(`Please draw first`);
+      return;
+    }
+
+    if (player.numMovesLeft > 0) {
+      setError('You must make a move before ending your turn');
+      return;
+    }
+
+    const roundWinners = getRoundResult(G, ctx);
+
+    if (roundWinners.length > 0) {
+      moves.showdown(roundWinners);
+
+      setTimeout(() => {
+        moves.resetRound();
+      }, delayBetweenActions * 2);
+      return;
+    }
+
     moves.endTurn();
+    return;
   };
 
   if (player.isDead) {

@@ -1,12 +1,13 @@
 import { Game } from 'boardgame.io';
 import { TurnOrder } from 'boardgame.io/core';
 import { EffectsPlugin } from 'bgio-effects/plugin';
-import moves, { drawOneFromDeck } from './moves';
+import moves, { discardHand, drawOneFromDeck } from './moves';
 import phases from './phases';
 import setup from './setup';
 import stages from './stages';
-import { IGameResult, IGameState } from './types';
+import { IGamePlayer, IGameResult, IGameState } from './types';
 import { config } from './effects';
+import { isRoundOverWithNoWinner, resetPlayers } from './utils';
 
 declare module 'boardgame.io' {
   interface Ctx {
@@ -25,7 +26,20 @@ const game: Game<IGameState> = {
   moves,
   phases,
   endIf: (G, ctx): IGameResult | undefined => {
-    return;
+    let winners: IGamePlayer[] = [];
+    for (const id in G.players) {
+      const player = G.players[id];
+      if (player.score > G.pointsToWin) {
+        winners.push(player);
+      }
+    }
+    if (winners.length > 0) {
+      return {
+        winners,
+      };
+    } else {
+      return;
+    }
   },
   turn: {
     order: {
@@ -46,10 +60,27 @@ const game: Game<IGameState> = {
     stages,
     onBegin: (G, ctx) => {
       const currentPlayer = G.players[ctx.currentPlayer];
-      if (G.deck.length > 0) {
-        const newCard = G.deck.pop();
-        if (newCard) {
-          currentPlayer.hand.push(newCard);
+      currentPlayer.cardDrawnAtStartLeft = 1;
+      currentPlayer.numMovesLeft = 1;
+      drawOneFromDeck(G, ctx);
+    },
+    onMove: (G, ctx) => {
+      const players = ctx.playOrder.map(id => G.players[id]);
+      const playersAlive = players.filter(player => !player.isDead);
+
+      if (playersAlive.length === 1) {
+        const winner = playersAlive[0];
+        winner.score++;
+        G.prevWinnerIds = [winner.id];
+        ctx.events?.endTurn?.({ next: winner.id });
+      }
+    },
+    onEnd: (G, ctx) => {
+      const currentPlayer = G.players[ctx.currentPlayer];
+      while (currentPlayer.secretCards.length > 0) {
+        const card = currentPlayer.secretCards.pop();
+        if (card) {
+          currentPlayer.hand.push(card);
         }
       }
     },

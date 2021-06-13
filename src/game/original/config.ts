@@ -1,5 +1,5 @@
 export interface ISetupData {
-  expansions: ExpansionName[];
+  expansions?: ExpansionName[];
   previousGamePlayers?: IPreviousGamePlayers;
 }
 

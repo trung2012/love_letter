@@ -3,10 +3,10 @@ export interface IGameState {
   spare: ICard[];
   players: IGamePlayerMap;
   pointsToWin: number;
-  resetForNextRound: boolean;
-  lastWinnerId: string;
-  phases: string[];
-  currentPhaseIndex: number;
+  prevWinnerIds: string[];
+  fishGuyState?: {
+    targetPlayerId: string;
+  };
 }
 
 export interface ICardToDiscard {
@@ -52,7 +52,6 @@ export type CardName =
 
 export interface IGameResult {
   winners: IGamePlayer[];
-  team: string;
 }
 
 export const mainPhase = 'main';
