@@ -2,7 +2,7 @@ import React from 'react';
 import { Droppable } from 'react-dragtastic';
 import { Card } from '../Card';
 import './DroppableCard.scss';
-import { useErrorContext, useGameContext } from '../../../context';
+import { useGameContext } from '../../../context';
 import { ICard } from '../../../game';
 import styled from '@emotion/styled';
 import { IDraggableCardData } from '../DraggableCard/DraggableCard.types';
@@ -29,17 +29,15 @@ export const DroppableCardContainer = styled.div<{ isCurrentPlayer: boolean }>`
 
 export const DroppableCardComponent: React.FC<IDroppableCardProps> = ({
   card,
-  index,
   isFacedUp,
   playerId,
   onClick,
 }) => {
-  const { G, ctx, moves, playerID } = useGameContext();
-  const { setError, setNotification } = useErrorContext();
+  const { G, playerID } = useGameContext();
   const { players } = G;
 
   const onDrop = (data: IDraggableCardData) => {
-    const { sourceCard, sourceCardIndex, sourcePlayerId, sourceCardLocation } = data;
+    const { sourceCard, sourceCardIndex, sourcePlayerId } = data;
     const sourcePlayer = players[sourcePlayerId];
     const targetPlayer = players[playerId];
   };

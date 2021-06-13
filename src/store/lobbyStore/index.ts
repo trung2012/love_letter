@@ -36,12 +36,12 @@ export const lobbySlice = createSlice({
     },
     setSetupData: (state, action: PayloadAction<ExpansionName>) => {
       if (state.setupData) {
-        if (state.setupData.expansions.includes(action.payload)) {
+        if (state?.setupData?.expansions?.includes(action.payload)) {
           state.setupData.expansions = state.setupData.expansions.filter(
             name => name !== action.payload
           );
         } else {
-          state.setupData.expansions = [...state.setupData.expansions, action.payload];
+          state.setupData.expansions = [...(state.setupData.expansions ?? []), action.payload];
         }
       } else {
         state.setupData = {
@@ -65,24 +65,22 @@ export const {
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched
-export const createGameRoom = (numPlayers: number, setupData?: ISetupData) => async (
-  dispatch: Dispatch
-) => {
-  const roomId = await lobbyService.createGame(numPlayers, setupData);
-  dispatch(setRoomId(roomId));
-  history.push(`/rooms/${roomId}`);
-};
+export const createGameRoom =
+  (numPlayers: number, setupData?: ISetupData) => async (dispatch: Dispatch) => {
+    const roomId = await lobbyService.createGame(numPlayers, setupData);
+    dispatch(setRoomId(roomId));
+    history.push(`/rooms/${roomId}`);
+  };
 
-export const joinRoom = (roomId: string, playerData: IPlayerJoinData) => async (
-  dispatch: Dispatch
-) => {
-  try {
-    const playerCredentials = await lobbyService.joinGame(roomId, playerData);
-    dispatch(setPlayerCredentials(playerCredentials));
-  } catch (err) {
-    console.log(err);
-  }
-};
+export const joinRoom =
+  (roomId: string, playerData: IPlayerJoinData) => async (dispatch: Dispatch) => {
+    try {
+      const playerCredentials = await lobbyService.joinGame(roomId, playerData);
+      dispatch(setPlayerCredentials(playerCredentials));
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
 export const getRoomData = (roomId: string) => async (dispatch: Dispatch) => {
   const roomData = await lobbyService.getGameData(roomId);
