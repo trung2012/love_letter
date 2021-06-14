@@ -18,7 +18,7 @@ export const GameOver: React.FC<IGameOverProps> = ({ gameResult }) => {
   const { roomId } = useParams<{ roomId: string }>();
   const clientPlayerId = useSelector(selectPlayerId);
   const clientPlayerCredentials = useSelector(selectPlayerCredentials);
-  const { G, playersInfo = [] } = useGameContext();
+  const { playersInfo = [] } = useGameContext();
   const winners = gameResult.winners.map(player => ({
     ...player,
     name: playersInfo[Number(player.id)].name,

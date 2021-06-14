@@ -2,7 +2,7 @@ import { Ctx } from 'boardgame.io/dist/types/src/types';
 import { randomRotationValue } from '../../utils';
 import { cards } from './cards';
 import { ISetupData } from './config';
-import { ICard, IGamePlayer, IGamePlayerMap, IGameState, mainNextPhase, mainPhase } from './types';
+import { ICard, IGamePlayer, IGamePlayerMap, IGameState } from './types';
 import { getNumPointsToWin } from './utils';
 const setup = (ctx: Ctx, setupData: ISetupData) => {
   const players: IGamePlayerMap = {};
@@ -12,8 +12,6 @@ const setup = (ctx: Ctx, setupData: ISetupData) => {
   }));
   const spare: ICard[] = [];
   const pointsToWin = getNumPointsToWin(ctx.playOrder.length);
-  const phases = [mainPhase, mainNextPhase];
-  const currentPhaseIndex = 0;
 
   // Create players
   for (const playerId of ctx.playOrder) {

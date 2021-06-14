@@ -1,5 +1,5 @@
 import React from 'react';
-import { useErrorContext, useGameContext } from '../../../context';
+import { useGameContext } from '../../../context';
 import { ICard } from '../../../game';
 import { DraggableCard } from '../DraggableCard';
 import { DroppableCard } from '../DroppableCard';
@@ -16,9 +16,7 @@ export type CardContainerProps = {
 };
 
 export const PlayerHandComponent: React.FC<IPlayerCardsProps> = ({ hand, playerId }) => {
-  const { G, playerID, ctx, moves } = useGameContext();
-  const { setError } = useErrorContext();
-  const clientPlayer = G.players[playerID!];
+  const { G, playerID } = useGameContext();
   const targetPlayer = G.players[playerId];
   const isPlayerDead = targetPlayer.isDead;
   const isFacedUp = playerId === playerID || !!isPlayerDead;

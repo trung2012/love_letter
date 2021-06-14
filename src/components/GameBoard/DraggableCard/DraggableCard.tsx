@@ -1,4 +1,4 @@
-import React, { Dispatch, Fragment, SetStateAction, useState } from 'react';
+import React, { Dispatch, Fragment, SetStateAction } from 'react';
 import { Draggable, DragComponent } from 'react-dragtastic';
 import { useErrorContext, useGameContext } from '../../../context';
 import {
@@ -33,12 +33,9 @@ const DraggableCardComponent: React.FC<IDraggableCardProps> = ({
 }) => {
   const { moves, playerID, isActive, G, ctx } = useGameContext();
   const { setError } = useErrorContext();
-  const [showCardOptions, setShowCardOptions] = useState(false);
   const isClientPlayer = playerID === playerId;
   const { players } = G;
-  const targetPlayer = players[playerId];
   const clientPlayer = players[playerID!];
-  const isTargetPlayerTurn = playerId === playerID;
 
   const onCardClickToPlay = () => {
     if (!isActive) {

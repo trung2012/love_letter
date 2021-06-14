@@ -5,7 +5,6 @@ import './DroppableCard.scss';
 import { useGameContext } from '../../../context';
 import { ICard } from '../../../game';
 import styled from '@emotion/styled';
-import { IDraggableCardData } from '../DraggableCard/DraggableCard.types';
 interface IDroppableCardProps {
   card: ICard;
   index: number;
@@ -33,17 +32,10 @@ export const DroppableCardComponent: React.FC<IDroppableCardProps> = ({
   playerId,
   onClick,
 }) => {
-  const { G, playerID } = useGameContext();
-  const { players } = G;
-
-  const onDrop = (data: IDraggableCardData) => {
-    const { sourceCard, sourceCardIndex, sourcePlayerId } = data;
-    const sourcePlayer = players[sourcePlayerId];
-    const targetPlayer = players[playerId];
-  };
+  const { playerID } = useGameContext();
 
   return (
-    <Droppable accepts='card' onDrop={onDrop}>
+    <Droppable accepts='card'>
       {droppableDragState => (
         <DroppableCardContainer
           isCurrentPlayer={playerID === playerId}
