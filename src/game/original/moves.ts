@@ -49,21 +49,15 @@ export const resetRound = (G: IGameState, ctx: Ctx) => {
 
   const allPlayerIds = Object.keys(G.players);
   const randomPlayerId = allPlayerIds[Math.floor(Math.random() * allPlayerIds.length)];
-  if (ctx.events?.endTurn) {
-    ctx.events.endTurn({ next: G.prevWinnerIds[0] ?? randomPlayerId });
-  }
+  ctx.events?.endTurn?.({ next: G.prevWinnerIds[0] ?? randomPlayerId });
 };
 
 export const endTurn = (G: IGameState, ctx: Ctx) => {
-  if (ctx.events?.endTurn) {
-    ctx.events.endTurn();
-  }
+  ctx.events?.endTurn?.();
 };
 
 export const endStage = (G: IGameState, ctx: Ctx) => {
-  if (ctx.events?.endStage) {
-    ctx.events.endStage();
-  }
+  ctx.events?.endStage?.();
 };
 
 export const playCard = (G: IGameState, ctx: Ctx, cardIndex: number, targetPlayerId: string) => {
@@ -175,14 +169,12 @@ const theIntellectual = (G: IGameState, ctx: Ctx) => {
     currentPlayer.secretCards.push(hand);
   }
 
-  if (ctx.events?.setActivePlayers) {
-    ctx.events.setActivePlayers({
-      value: {
-        [ctx.currentPlayer]: stageNames.intellectual,
-      },
-      moveLimit: 2,
-    });
-  }
+  ctx.events?.setActivePlayers?.({
+    value: {
+      [ctx.currentPlayer]: stageNames.intellectual,
+    },
+    moveLimit: 2,
+  });
 };
 
 const puppyLove = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
