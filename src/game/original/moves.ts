@@ -49,7 +49,9 @@ export const resetRound = (G: IGameState, ctx: Ctx) => {
 
   const allPlayerIds = Object.keys(G.players);
   const randomPlayerId = allPlayerIds[Math.floor(Math.random() * allPlayerIds.length)];
-  ctx.events?.endTurn?.({ next: G.prevWinnerIds[0] ?? randomPlayerId });
+  if (ctx.events?.endTurn) {
+    ctx.events.endTurn({ next: G.prevWinnerIds[0] ?? randomPlayerId });
+  }
 };
 
 export const endTurn = (G: IGameState, ctx: Ctx) => {

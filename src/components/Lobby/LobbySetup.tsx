@@ -30,7 +30,7 @@ export const LobbySetup: React.FC<ILobbySetupProps> = ({ startGame, roomId }) =>
 
   const copyLinkToClipboard = () => {
     const linkElement = document.getElementById('lobby-link') as HTMLInputElement;
-    linkElement?.select();
+    linkElement.select();
     document.execCommand('copy');
   };
 

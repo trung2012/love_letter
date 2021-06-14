@@ -71,7 +71,9 @@ const game: Game<IGameState> = {
         const winner = playersAlive[0];
         winner.score++;
         G.prevWinnerIds = [winner.id];
-        ctx.events?.endTurn?.({ next: winner.id });
+        if (ctx.events?.endTurn) {
+          ctx.events.endTurn({ next: winner.id });
+        }
 
         const playersWithCatfish = players.filter(player =>
           player.cardsInPlay.find(card => card.name === 'catfish')
