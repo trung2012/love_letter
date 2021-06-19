@@ -22,6 +22,10 @@ export const showdown = (G: IGameState, ctx: Ctx, roundWinners: IGamePlayer[]) =
   for (const winner of roundWinners) {
     G.players[winner.id].score += 1;
   }
+
+  G.prevWinnerIds = roundWinners.map(winner => winner.id);
+
+  resetRound(G, ctx);
 };
 
 export const resetRound = (G: IGameState, ctx: Ctx) => {
