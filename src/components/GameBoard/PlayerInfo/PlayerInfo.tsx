@@ -4,6 +4,7 @@ import { useErrorContext, useGameContext } from '../../../context';
 import {
   allCardValuesExcept1,
   cardValueToNameMap,
+  delayBetweenActions,
   getLastCardPlayed,
   IGamePlayer,
   shouldNoFilterBePlayed,
@@ -69,7 +70,9 @@ export const PlayerInfo: React.FC<IPlayerInfoProps> = ({ player }) => {
         return;
       }
       case 'devils advocate': {
-        moves.devilsAdvocate(player.id);
+        setTimeout(() => {
+          moves.devilsAdvocate(player.id);
+        }, delayBetweenActions);
         return;
       }
       case 'the ghost': {

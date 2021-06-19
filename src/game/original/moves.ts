@@ -1,10 +1,10 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
 import { Ctx } from 'boardgame.io';
-import { ICard, IGameState } from './types';
+import { ICard, IGamePlayer, IGameState } from './types';
 import { stageNames } from './constants';
 import { dealCardToPlayers, emptyPlayerHandAndCardsPlayed, resetPlayers } from './utils';
 
-export const showdown = (G: IGameState, ctx: Ctx) => {
+export const showdown = (G: IGameState, ctx: Ctx, roundWinners: IGamePlayer[]) => {
   const players = ctx.playOrder.map(id => G.players[id]);
 
   for (const player of players) {
@@ -17,6 +17,10 @@ export const showdown = (G: IGameState, ctx: Ctx) => {
 
   if (playersWithCatfish.length === 1) {
     playersWithCatfish[0].score++;
+  }
+
+  for (const winner of roundWinners) {
+    winner.score += 1;
   }
 };
 
