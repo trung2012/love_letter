@@ -8,3 +8,15 @@
     box-shadow: $box-shadow-deck-active;
   }
 }
+
+.deck-container {
+  position: relative;
+  .count {
+    text-align: center;
+    font-weight: bold;
+    position: absolute;
+    left: 50%;
+    top: -2.5rem;
+    transform: translate(-50%, -50%);
+  }
+}

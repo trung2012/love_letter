@@ -20,7 +20,7 @@ export const showdown = (G: IGameState, ctx: Ctx, roundWinners: IGamePlayer[]) =
   }
 
   for (const winner of roundWinners) {
-    winner.score += 1;
+    G.players[winner.id].score += 1;
   }
 };
 

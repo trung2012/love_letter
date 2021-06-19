@@ -32,8 +32,8 @@ export const Deck: React.FC<IDeckProps> = ({ deck }) => {
   };
 
   return (
-    <div>
-      <div>{deck.length || 0}</div>
+    <div className='deck-container'>
+      <div className='count'>{deck.length || 0}</div>
       <CardPile
         className={classnames('deck', {
           'deck--active': isActive && playerID === ctx.currentPlayer,
