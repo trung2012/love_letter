@@ -8,6 +8,7 @@ export const numPlayers = [2, 3, 4, 5, 6];
 
 export enum stageNames {
   intellectual = 'intellectual',
+  fishGuy = 'fishGuy',
 }
 
 export const cardValueToNameMap: Record<number, string> = {
@@ -25,4 +26,4 @@ export const cardValueToNameMap: Record<number, string> = {
 
 export const allCardValuesExcept1 = [0, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export const cardsWhichMustBePlayedOnSelf: CardName[] = ['the ghost'];
+export const cardsWhichMustBePlayedOnSelf: CardName[] = ['the ghost', 'the intellectual'];

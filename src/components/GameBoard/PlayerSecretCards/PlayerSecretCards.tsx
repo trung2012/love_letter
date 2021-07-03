@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Tippy from '@tippyjs/react';
 import React from 'react';
 import { useGameContext } from '../../../context';
-import { ICard } from '../../../game';
+import { ICard, stageNames } from '../../../game';
 import { Card } from '../Card';
 
 interface IPlayerSecretCards {
@@ -16,7 +16,8 @@ export const SecretCard = styled(Card)<{ index: number; isCurrentPlayer: boolean
 `;
 
 export const PlayerSecretCards: React.FC<IPlayerSecretCards> = ({ cards, playerId }) => {
-  const { G, playerID, moves, isActive } = useGameContext();
+  const { G, ctx, playerID, moves, isActive } = useGameContext();
+  const playerStage = ctx.activePlayers?.[playerID!];
 
   if (!cards?.length) {
     return null;
@@ -30,7 +31,10 @@ export const PlayerSecretCards: React.FC<IPlayerSecretCards> = ({ cards, playerI
       return;
     }
 
-    moves.putCardToBottomOfDeck(index);
+    if (playerStage === stageNames.intellectual) {
+      moves.putCardToBottomOfDeck(index);
+      return;
+    }
   };
 
   return (

@@ -9,6 +9,11 @@ const stages: StageMap<IGameState> = {
       putCardToBottomOfDeck: moves.putCardToBottomOfDeck,
     },
   },
+  [stageNames.fishGuy]: {
+    moves: {
+      returnCard: moves.returnCard,
+    },
+  },
 };
 
 export default stages;

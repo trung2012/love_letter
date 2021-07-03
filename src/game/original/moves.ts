@@ -4,7 +4,7 @@ import { ICard, IGamePlayer, IGameState } from './types';
 import { stageNames } from './constants';
 import { dealCardToPlayers, emptyPlayerHandAndCardsPlayed, resetPlayers } from './utils';
 
-export const showdown = (G: IGameState, ctx: Ctx, roundWinners: IGamePlayer[]) => {
+export const showdown = (G: IGameState, ctx: Ctx, roundWinnerIds: string[]) => {
   const players = ctx.playOrder.map(id => G.players[id]);
 
   for (const player of players) {
@@ -19,11 +19,11 @@ export const showdown = (G: IGameState, ctx: Ctx, roundWinners: IGamePlayer[]) =
     playersWithCatfish[0].score++;
   }
 
-  for (const winner of roundWinners) {
-    G.players[winner.id].score += 1;
+  for (const id of roundWinnerIds) {
+    G.players[id].score += 1;
   }
 
-  G.prevWinnerIds = roundWinners.map(winner => winner.id);
+  G.prevWinnerIds = [...roundWinnerIds];
 
   resetRound(G, ctx);
 };
@@ -129,6 +129,13 @@ const fishGuy = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
   G.fishGuyState = {
     targetPlayerId,
   };
+
+  ctx.events?.setActivePlayers?.({
+    value: {
+      [currentPlayer.id]: stageNames.fishGuy,
+    },
+    moveLimit: 1,
+  });
 };
 
 const devilsAdvocate = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
@@ -169,20 +176,27 @@ const theGhost = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
 
 const theIntellectual = (G: IGameState, ctx: Ctx) => {
   const currentPlayer = G.players[ctx.currentPlayer];
-  const newCards: ICard[] = G.deck.slice(G.deck.length - 2, G.deck.length);
-  G.deck = G.deck.slice(0, G.deck.length - 2);
-  currentPlayer.secretCards.push(...newCards);
-  const hand = currentPlayer.hand.pop();
-  if (hand) {
-    currentPlayer.secretCards.push(hand);
-  }
 
-  ctx.events?.setActivePlayers?.({
-    value: {
-      [ctx.currentPlayer]: stageNames.intellectual,
-    },
-    moveLimit: 2,
-  });
+  if (G.deck.length) {
+    const newCards: ICard[] = G.deck.slice(G.deck.length - 2, G.deck.length);
+    G.deck = G.deck.slice(0, G.deck.length - 2);
+
+    currentPlayer.secretCards.push(...newCards);
+
+    const hand = currentPlayer.hand.pop();
+    if (hand) {
+      currentPlayer.secretCards.push(hand);
+    }
+
+    if (currentPlayer.secretCards.length > 1) {
+      ctx.events?.setActivePlayers?.({
+        value: {
+          [ctx.currentPlayer]: stageNames.intellectual,
+        },
+        moveLimit: Math.min(2, currentPlayer.secretCards.length - 1),
+      });
+    }
+  }
 };
 
 const puppyLove = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {
@@ -214,6 +228,13 @@ const putCardToBottomOfDeck = (G: IGameState, ctx: Ctx, secretCardIndex: number)
   if (!cardToPutInDeck) return INVALID_MOVE;
 
   G.deck.unshift(cardToPutInDeck);
+
+  if (currentPlayer.secretCards.length === 1) {
+    const cardToPutBackToHand = currentPlayer.secretCards.pop();
+    if (cardToPutBackToHand) {
+      currentPlayer.hand.push(cardToPutBackToHand);
+    }
+  }
 };
 
 const returnCard = (G: IGameState, ctx: Ctx, targetPlayerId: string) => {

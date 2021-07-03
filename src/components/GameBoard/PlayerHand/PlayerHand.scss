@@ -9,7 +9,7 @@
   & > .draggable-card {
     &:hover {
       & ~ .draggable-card {
-        transform: translateX(25%);
+        transform: translateX(15%);
       }
     }
   }

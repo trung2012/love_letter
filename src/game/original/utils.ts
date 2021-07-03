@@ -72,15 +72,15 @@ export const getRoundResult = (G: IGameState, ctx: Ctx) => {
   if (!isRoundOverWithoutWinner) return [];
 
   let maxVal = -1;
-  const winners: IGamePlayer[] = [];
+  const winnerIds: string[] = [];
   for (const player of playersAlive) {
     const playerHandValue = player.cardsInPlay[player.cardsInPlay.length - 1].value;
     if (playerHandValue >= maxVal) {
-      winners.push(player);
+      winnerIds.push(player.id);
       maxVal = playerHandValue;
     }
   }
-  return winners;
+  return winnerIds;
 };
 
 export const getPlayersAlive = (G: IGameState, ctx: Ctx) => {

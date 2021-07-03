@@ -18,14 +18,6 @@ export type CardContainerProps = {
   isCurrentPlayer: boolean;
 };
 
-export const DroppableCardContainer = styled.div<{ isCurrentPlayer: boolean }>`
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  &:hover {
-    transform: ${props => `${props.isCurrentPlayer ? 'translateY(-3rem)' : 'translateY(2rem)'} `};
-    z-index: 11;
-  }
-`;
-
 export const DroppableCardComponent: React.FC<IDroppableCardProps> = ({
   card,
   isFacedUp,
@@ -37,13 +29,9 @@ export const DroppableCardComponent: React.FC<IDroppableCardProps> = ({
   return (
     <Droppable accepts='card'>
       {droppableDragState => (
-        <DroppableCardContainer
-          isCurrentPlayer={playerID === playerId}
-          className='droppable-card'
-          {...droppableDragState.events}
-        >
+        <div className='droppable-card' {...droppableDragState.events}>
           <Card card={card} isFacedUp={isFacedUp} onClick={onClick} />
-        </DroppableCardContainer>
+        </div>
       )}
     </Droppable>
   );

@@ -12,8 +12,8 @@ interface IPlayerCardsInPlay {
 
 export const CardInPlay = styled(Card)<{ index: number; isCurrentPlayer: boolean }>`
   position: absolute;
-  left: ${props => `${props.index * 90}px`};
-  top: ${props => (props.isCurrentPlayer ? '-100%' : '100%')};
+  left: ${props => `${props.index * 35}px`};
+  top: ${props => (props.isCurrentPlayer ? '-100%' : '75%')};
   z-index: 10;
 `;
 

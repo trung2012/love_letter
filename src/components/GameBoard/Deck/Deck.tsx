@@ -35,9 +35,7 @@ export const Deck: React.FC<IDeckProps> = ({ deck }) => {
     <div className='deck-container'>
       <div className='count'>{deck.length || 0}</div>
       <CardPile
-        className={classnames('deck', {
-          'deck--active': isActive && playerID === ctx.currentPlayer,
-        })}
+        className='deck'
         cards={deck}
         isFacedUp={false}
         onClick={isDeckDisabled ? () => {} : onDeckClick}

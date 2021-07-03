@@ -56,7 +56,7 @@ const DraggableCardComponent: React.FC<IDraggableCardProps> = ({
     }
 
     const moveName = toCamelCase(card.name);
-    console.log(moveName);
+
     if (!moves[moveName]) {
       throw Error('Move does not exist');
     }
