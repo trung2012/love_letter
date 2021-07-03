@@ -1,6 +1,6 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
 import { Ctx } from 'boardgame.io';
-import { ICard, IGamePlayer, IGameState } from './types';
+import { ICard, IGameState } from './types';
 import { stageNames } from './constants';
 import { dealCardToPlayers, emptyPlayerHandAndCardsPlayed, resetPlayers } from './utils';
 
@@ -24,8 +24,6 @@ export const showdown = (G: IGameState, ctx: Ctx, roundWinnerIds: string[]) => {
   }
 
   G.prevWinnerIds = [...roundWinnerIds];
-
-  resetRound(G, ctx);
 };
 
 export const resetRound = (G: IGameState, ctx: Ctx) => {

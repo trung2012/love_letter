@@ -31,7 +31,7 @@ export const PlayerInfo: React.FC<IPlayerInfoProps> = ({ player }) => {
   };
 
   const onDrop = (data: IDraggableCardData) => {
-    if (!isActive || player.isDead) return;
+    if (!isActive || player.isDead || player.id === playerID) return;
     if (!playersInfo?.length) throw Error('Something went wrong');
     const { sourcePlayerId, sourceCard, sourceCardIndex } = data;
     const sourcePlayer = G.players[sourcePlayerId];

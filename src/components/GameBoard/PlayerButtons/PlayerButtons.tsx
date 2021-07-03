@@ -34,7 +34,7 @@ export const PlayerButtonsComponent: React.FC<{ player: IGamePlayer }> = ({ play
 
       setTimeout(() => {
         moves.resetRound();
-      }, delayBetweenActions * 2);
+      }, delayBetweenActions * 2.5);
       return;
     }
 
